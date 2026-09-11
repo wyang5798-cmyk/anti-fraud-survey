@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大学生防诈骗认知与防范调查问卷</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;background:#f4f7fb;color:#172033;line-height:1.6}
+.hero{background:linear-gradient(135deg,#1677ff,#4d9cff);color:#fff;padding:48px 20px 70px}.hero .wrap,.wrap{max-width:960px;margin:auto}.hero h1{font-size:32px;margin:0 0 10px}.hero p{margin:0;opacity:.92}
+.card{background:#fff;border-radius:18px;padding:28px;margin-top:-35px;box-shadow:0 12px 35px rgba(24,54,92,.10);position:relative}.notice{background:#eef6ff;border-left:4px solid #1677ff;padding:14px 16px;border-radius:8px;margin-bottom:24px}
+.section{margin:28px 0 36px}.section-title{display:flex;align-items:center;gap:10px;border-bottom:2px solid #edf1f7;padding-bottom:12px}.num{background:#1677ff;color:white;border-radius:50%;width:32px;height:32px;display:grid;place-items:center;font-weight:700}.section-title h2{font-size:21px;margin:0}
+.q{padding:20px 4px;border-bottom:1px solid #edf0f5}.q:last-child{border-bottom:0}.q-title{font-weight:600;margin-bottom:12px}.required{color:#e5484d}.options{display:grid;gap:9px}.option{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:9px;background:#f8fafc;cursor:pointer}.option:hover{background:#eef6ff}.option input{margin-top:5px}
+textarea,input[type=text]{width:100%;padding:11px 12px;border:1px solid #d8deea;border-radius:9px;font:inherit}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}.btn{border:0;border-radius:10px;padding:13px 24px;font-size:16px;cursor:pointer}.primary{background:#1677ff;color:#fff}.secondary{background:#edf2f8;color:#25324a}
+.progress{position:sticky;top:0;z-index:5;background:#fff;padding:10px 0}.bar{height:8px;background:#e8edf5;border-radius:20px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:#1677ff;transition:.2s}
+.result{display:none;margin-top:25px;padding:20px;border-radius:12px;background:#f0fff7;border:1px solid #b9efd0}.score{font-size:26px;font-weight:700}
+.small{font-size:13px;color:#667085}.footer{text-align:center;color:#667085;padding:30px 0 50px}
+@media(max-width:600px){.hero h1{font-size:26px}.card{padding:18px}.q{padding:17px 0}.section-title h2{font-size:18px}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+<h1>大学生防诈骗认知与防范调查问卷</h1>
+<p>了解大学生对信息诈骗方式、误导信息及防范措施的认知情况，用于校园防诈宣传与研究。</p>
+</div></header>
+
+<main class="wrap">
+<div class="card">
+<div class="notice"><b>填写说明：</b>本问卷共40题，预计5–8分钟。问卷可匿名填写，请根据你的真实情况选择。带 <span class="required">*</span> 为必答题。</div>
+<div class="progress"><div class="small">填写进度：<span id="progressText">0%</span></div><div class="bar"><i id="bar"></i></div></div>
+
+<form id="survey">
+
+<section class="section"><div class="section-title"><span class="num">1</span><h2>你知道哪些信息诈骗的方式？</h2></div>
+<div id="sec1"></div></section>
+
+<section class="section"><div class="section-title"><span class="num">2</span><h2>你容易被哪些信息所误导？</h2></div>
+<div id="sec2"></div></section>
+
+<section class="section"><div class="section-title"><span class="num">3</span><h2>你会采取哪些防范诈骗的方法？</h2></div>
+<div id="sec3"></div></section>
+
+<section class="section"><div class="section-title"><span class="num">4</span><h2>大学生防诈骗综合认知</h2></div>
+<div id="sec4"></div></section>
+
+<div class="q"><div class="q-title">41. 你对校园防诈骗宣传还有哪些建议？</div><textarea name="q41" rows="4" placeholder="请输入你的建议（选填）"></textarea></div>
+
+<div class="actions">
+<button class="btn primary" type="submit">提交问卷</button>
+<button class="btn secondary" type="reset">重新填写</button>
+</div>
+</form>
+
+<div id="result" class="result"></div>
+</div>
+<div class="footer">大学生网络安全与防诈骗调查 · 仅用于学习与研究</div>
+</main>
+
+<script>
+const common=[
+["单选","从未听说","听说过但不了解","比较了解","非常了解"],
+["单选","完全不会识别","不太会","基本会","比较会","非常会"],
+["单选","从不","偶尔","有时","经常","总是"],
+["单选","非常不可信","不太可信","一般","比较可信","非常可信"],
+["多选","冒充客服/平台","刷单返利","冒充公检法","虚假兼职","网络交友/婚恋","虚假中奖","冒充熟人借钱","虚假购物/退款","游戏交易诈骗","虚假投资理财"],
+["单选","没有遇到过","遇到过1次","遇到过2–3次","遇到过多次"],
+["单选","完全没有把握","不太有把握","一般","比较有把握","很有把握"],
+["单选","非常不需要","不太需要","一般","比较需要","非常需要"],
+["单选","完全不同意","不太同意","一般","比较同意","完全同意"],
+["文本","",""]
+];
+
+const qs1=[
+"你听说过“刷单返利”诈骗吗？","你能识别冒充电商客服退款的诈骗吗？","你知道冒充公检法工作人员的诈骗套路吗？","你是否了解虚假兼职、网络刷单招聘诈骗？","你是否了解冒充熟人或老师借钱的诈骗？","你是否了解网络游戏账号/装备交易诈骗？","你是否了解虚假中奖、领奖诈骗？","你是否了解虚假投资理财、荐股诈骗？","你是否了解网络交友后诱导转账或投资的诈骗？","你是否了解利用AI换脸、AI语音冒充熟人实施诈骗的方式？"];
+const qs2=[
+"收到“账户异常、需要立即验证”的短信时，你容易相信吗？","看到“限时优惠、马上付款”的信息时，你容易冲动点击吗？","陌生人以“高薪兼职、轻松赚钱”吸引你时，你容易被说服吗？","看到“中奖、红包、免费领取”的消息时，你容易相信吗？","对方准确说出你的姓名、学校等信息时，你会因此降低警惕吗？","对方使用官方头像、工号或公司名称时，你容易相信其身份吗？","遇到“马上转账，否则承担法律后果”的信息时，你容易紧张并照做吗？","朋友账号突然发消息借钱时，你会直接相信是本人吗？","陌生链接带有“官方”“安全认证”等字样时，你容易认为它安全可靠吗？","看到社交平台上的投资“成功案例”和收益截图时，你容易受到影响吗？"];
+const qs3=[
+"你会通过官方客服电话/官方网站核实对方身份吗？","收到陌生链接时，你会先核实网址和发送者吗？","涉及转账时，你会先与本人或其他可信渠道确认吗？","你会开启支付账户的安全验证、设备锁或双重验证吗？","你会给手机和常用App及时更新系统及安全补丁吗？","你会使用不同且较复杂的密码保护重要账户吗？","你会对陌生二维码保持警惕吗？","遇到疑似诈骗时，你会立即停止沟通和转账吗？","发现被骗或疑似被骗时，你知道如何向学校、平台或警方求助吗？","你会主动学习学校、警方或正规平台发布的防诈知识吗？"];
+const qs4=[
+"你认为自己具备基本的网络诈骗识别能力吗？","你认为个人信息泄露会增加遭遇诈骗的风险吗？","你认为“不要轻信、不要透露、不要转账”是有效的防诈原则吗？","你认为诈骗信息越来越具有迷惑性吗？","你认为AI生成语音、视频会增加识别诈骗的难度吗？","你认为大学生是网络诈骗的重要目标群体之一吗？","你愿意参加学校组织的防诈骗讲座或培训吗？","你认为真实案例比单纯宣传口号更能提高防诈意识吗？","如果朋友疑似被骗，你愿意主动提醒并帮助其核实吗？","总体来说，你认为学校目前的防诈骗宣传力度足够吗？"];
+
+function render(sec, qs, offset){
+ const box=document.getElementById(sec);
+ qs.forEach((q,i)=>{
+   const n=offset+i+1, cfg=common[i%common.length];
+   let type=cfg[0], opts=cfg.slice(1);
+   let h=`<div class="q"><div class="q-title">${n}. ${q} <span class="required">*</span></div>`;
+   if(type==="文本") h+=`<input type="text" name="q${n}" required placeholder="请输入答案">`;
+   else if(type==="多选") h+=`<div class="options">`+opts.map((o,j)=>`<label class="option"><input type="checkbox" name="q${n}" value="${o}"> ${o}</label>`).join("")+`</div>`;
+   else h+=`<div class="options">`+opts.map(o=>`<label class="option"><input type="radio" name="q${n}" value="${o}" required> ${o}</label>`).join("")+`</div>`;
+   h+=`</div>`; box.insertAdjacentHTML("beforeend",h);
+ });
+}
+render("sec1",qs1,0);render("sec2",qs2,10);render("sec3",qs3,20);render("sec4",qs4,30);
+
+const form=document.getElementById("survey"), bar=document.getElementById("bar"), pt=document.getElementById("progressText");
+function update(){
+ const names=[...new Set([...form.querySelectorAll("input[required]")].map(x=>x.name))];
+ let done=names.filter(n=>form.querySelector(`[name="${n}"]:checked`) || form.querySelector(`[name="${n}"]`)?.value).length;
+ let p=Math.round(done/names.length*100);bar.style.width=p+"%";pt.textContent=p+"%";
+}
+form.addEventListener("change",update);form.addEventListener("input",update);
+form.addEventListener("submit",e=>{
+ e.preventDefault();
+ if(!form.checkValidity()){form.reportValidity();return}
+ const r=document.getElementById("result");r.style.display="block";
+ r.innerHTML='<div class="score">问卷提交成功！</div><p>感谢你的参与。此演示版不会把答案上传到服务器，提交内容仅保留在当前页面。</p>';
+ r.scrollIntoView({behavior:"smooth",block:"center"});
+});
+form.addEventListener("reset",()=>setTimeout(()=>{bar.style.width="0%";pt.textContent="0%";document.getElementById("result").style.display="none"},0));
+</script>
+</body>
+</html>
